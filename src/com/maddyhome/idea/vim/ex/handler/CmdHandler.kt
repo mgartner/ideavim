@@ -42,7 +42,6 @@ class CmdHandler : CommandHandler.SingleExecution(), VimScriptCommandHandler {
     const val moreThanZeroArguments = "+"
 
     const val errorInvalidNumberOfArguments = "E176: Invalid number of arguments"
-    const val errorCannotStartWithLowercase = "E183: User defined commands must start with an uppercase letter"
     const val errorReservedName = "E841: Reserved name, cannot be used for user defined command"
     const val errorCommandAlreadyExists = "E174: Command already exists: add ! to replace it"
   }
@@ -138,12 +137,6 @@ class CmdHandler : CommandHandler.SingleExecution(), VimScriptCommandHandler {
     // the argument as the alias result.
     val alias = argument.split(" ")[0]
     argument = argument.removePrefix(alias).trim()
-
-    // User-aliases need to begin with an uppercase character.
-    if (!alias[0].isUpperCase()) {
-      VimPlugin.showMessage(errorCannotStartWithLowercase)
-      return false
-    }
 
     if (alias in BLACKLISTED_ALIASES) {
       VimPlugin.showMessage(errorReservedName)
